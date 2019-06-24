@@ -1,17 +1,7 @@
 {
     "compilerOptions": {
-      "target": "ES5",
-      "module": "system",
-      "moduleResolution": "node",
-      "outDir": "js/build",
-      "rootDir": "./ts",
-      "noEmitOnError": true
-    },
-    "exclude": [
-      "node_modules",
-      ".npm"
-    ],
-    "include": [
-          "ts/**/*.ts"
-  ]
+        "module": "esNext",
+        "target": "es5",
+        "moduleResolution": "node",
+    }
   }
