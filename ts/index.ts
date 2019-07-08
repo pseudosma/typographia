@@ -38,7 +38,7 @@ light.intensity = 0.7;
 var material = new GridMaterial("grid", scene);
 
 // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-var sphere = Mesh.CreateSphere("sphere1", 16, 2, scene);
+var sphere = Mesh.CreateSphere("sphere", 16, 2, scene);
 
 // Move the sphere upward 1/2 its height
 sphere.position.y = 2;

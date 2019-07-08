@@ -2,6 +2,10 @@ module.exports = {
     entry: {
         main: './ts'
     },
+    output: {
+        filename: 'main.js',
+        path: __dirname + '/js'
+    },
     resolve: {
         extensions: ['.ts', '.js']
     },
