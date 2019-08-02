@@ -1,58 +1,135 @@
 import { Engine } from "@babylonjs/core/Engines/engine";
+import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
+import "@babylonjs/core/Loading/Plugins/babylonFileLoader";
 import { Scene } from "@babylonjs/core/scene";
 import { Vector3 } from "@babylonjs/core/Maths/math";
+//import { Camera } from "@babylonjs/core/Cameras";
 import { FreeCamera } from "@babylonjs/core/Cameras/freeCamera";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
-import { Mesh } from "@babylonjs/core/Meshes/mesh";
 
-import { GridMaterial } from "@babylonjs/materials/grid";
+import { CellMaterial } from "@babylonjs/materials/cell";
 
-// Required side effects to populate the Create methods on the mesh class. Without this, the bundle would be smaller but the createXXX methods from mesh would not be accessible.
-import "@babylonjs/core/Meshes/meshBuilder";
+const specials = [`,`,`-`,`.`,`?`,`/`,`\\`,`'`,`"`,`:`,`;`,`!`,`(`,`)`,`+`];
+const numbers = ['0','1','2','3','4','5','6','7','8','9'];
+const lowers = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+const capitals = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+const all = specials.concat(numbers,lowers,capitals);
+const lettersAndNumbers = numbers.concat(lowers,capitals);
 
-// Get the canvas element from the DOM.
-const canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
+const sPos = -4;
 
-// Associate a Babylon Engine to it.
-const engine = new Engine(canvas);
+class Game {
+    private canvas: HTMLCanvasElement;
+    private engine: Engine;
+    private scene: Scene;
+    private camera: FreeCamera;
+    private light: HemisphericLight;
 
-// Create our first scene.
-var scene = new Scene(engine);
+    constructor(canvasElement: string) {
+        this.canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
+        this.engine = new Engine(this.canvas);
+        this.scene = new Scene(this.engine);  
+        this.camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this.scene);
+        this.camera.setTarget(Vector3.Zero());
+        //this.camera.mode = Camera.ORTHOGRAPHIC_CAMERA;
+        //this.camera.fov = 0.1;
+        this.light = new HemisphericLight("light1", new Vector3(0, 1, 0), this.scene);
+        this.light.intensity = 0.7;
+  
+        //Listen for browser/canvas resize events
+        window.addEventListener("resize", ()=> {
+            this.engine.resize();
+        });
+    }
 
-// This creates and positions a free camera (non-mesh)
-var camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+    public createScene() : void {
+        const material = new CellMaterial("cell", this.scene);
+        for (let i=0; i<all.length; i++) {
+            var letter = this.charFix(all[i]);
+            SceneLoader.ImportMesh(letter, "./graphics/", "text.babylon", this.scene, function (newMeshes) {
+                var char = newMeshes[0];
+                char.scaling = new Vector3(2.5,2.5,2.5);
+                char.position.x = -6
+                char.position.y = -1
+                char.name = letter;
+                //char.isVisible = false;
+                // if (capitals.includes(letter)) {
+                //      char.position.x = sPos + (i * 1.4);
+                // } else {
+                //      char.position.x = sPos + (i * 1.8);
+                // }
+                char.material = material;
+            });
+        }
+        fetch('https://bypasscors.herokuapp.com/api/?url=http://www.gutenberg.org/cache/epub/7477/pg7477.txt')
+        .then(function(response) {
+            return response.body;
+        })
+        .then(function(r) {
+            console.log(r);
+        });
+    }
 
-// This targets the camera to scene origin
-camera.setTarget(Vector3.Zero());
+    public run() : void {
+        this.engine.runRenderLoop(()=> {
+            this.scene.render();
+        });
+    }
 
-// This attaches the camera to the canvas
-camera.attachControl(canvas, true);
+    private charFix(char:string) : string {
+        var retVal = 'special';
+        if (lettersAndNumbers.includes(char)) {
+            retVal = char;
+        }
+        //renaming of special chars
+        if (char == ',') {
+            retVal = 'comma';
+        }
+        if (char == '-') {
+            retVal = 'dash';
+        }
+        if (char == '.') {
+            retVal = 'period';
+        }
+        if (char == '?') {
+            retVal = 'questionmark';
+        }
+        if (char == '/') {
+            retVal = 'forwardslash';
+        }
+        if (char == "'") {
+            retVal = 'singlequote';
+        }
+        if (char == '"') {
+            retVal = 'doublequote';
+        }
+        if (char == ':') {
+            retVal = 'colon';
+        }
+        if (char == ';') {
+            retVal = 'semicolon';
+        }
+        if (char == '\\') {
+            retVal = 'backslash';
+        }
+        if (char == '!') {
+            retVal = 'exclamationpoint';
+        }
+        if (char == '(') {
+            retVal = 'openparen';
+        }
+        if (char == ')') {
+            retVal = 'closeparen';
+        }
+        return retVal
+    }
+}
 
-// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-var light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
+// Create our game class using the render canvas element
+let game = new Game('renderCanvas');
 
-// Default intensity is 1. Let's dim the light a small amount
-light.intensity = 0.7;
+// Create the scene
+game.createScene();
 
-// Create a grid material
-var material = new GridMaterial("grid", scene);
-
-// Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-var sphere = Mesh.CreateSphere("sphere", 16, 2, scene);
-
-// Move the sphere upward 1/2 its height
-sphere.position.y = 2;
-
-// Affect a material
-sphere.material = material;
-
-// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-var ground = Mesh.CreateGround("ground1", 6, 6, 2, scene);
-
-// Affect a material
-ground.material = material;
-
-// Render every frame
-engine.runRenderLoop(() => {
-    scene.render();
-});
+// start animation
+game.run();
