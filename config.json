@@ -1,0 +1,16 @@
+{
+    "graphicsPath": "./graphics/",
+    "fontFile": "text.babylon",
+    "textSources": [
+        {"path":"http://www.gutenberg.org/cache/epub/7477/pg7477.txt",
+        "beginPattern": "",
+        "endPattern": "",
+        "chapterPattern": "",
+        "replacements": [
+                {"akjhsfak":""}
+            ]
+        }
+    ],
+    "proxyPath": "https://bypasscors.herokuapp.com/api/?url=",
+    "style": 1
+}
