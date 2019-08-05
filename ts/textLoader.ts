@@ -1,42 +1,58 @@
 import { TextSource, GameConfig } from "./gameConfig";
 
+
 export class TextLoader {
-    private source: TextSource;
+    public readonly source: TextSource;
     private proxyPath: string;
-    private style: number;
 
     constructor(config: GameConfig) {
         this.source = this.randomizeTextSource(config.textSources);
         this.proxyPath = config.proxyPath;
-        this.style = config.style;
     }
 
-    public LoadText() : string {
-        if (this.style == 0) {
-            return this.LoadTextFromFile();
-        }
-        if (this.style == 0) {
-            return this.LoadTextFromWeb();
-        }
-    }
 
-    private LoadTextFromWeb() : string {
-        fetch(this.proxyPath + this.source.path)
+    public LoadText() : Promise<any> {
+        const b = this.source.beginPattern;
+        const e = this.source.endPattern;
+        const r = this.source.replacements;
+        const cp = this.source.chapterPattern;
+        var ci = new Map<number,string>();
+
+        return fetch(this.proxyPath + this.source.path)
         .then(function(response) {
-            return response.body;
+            const data = response.text()
+            return Promise.resolve(data).then(
+                d => data
+            );
         })
-        .then(function(r) {
-            console.log(r);
+        .then(function(d) {
+            //first replace line breaks
+            var dc = d.replace(new RegExp(`\r\n`,"gm")," ");
+            //then find the beginning and end indexes and substring
+            const begin = dc.indexOf(b);
+            const end = dc.indexOf(e);
+            var sdc = dc.substring(begin, end);
+            //grab and then remove the titles
+            var chapters = sdc.match(cp);
+            for (var c in chapters) {
+                const i = sdc.indexOf(c);
+                ci[i] = c;  
+            }
+            var sdc = sdc.replace(new RegExp(cp,"gm"),"");
+            //then work on replacements
+            for (var m in r){
+                for (var i=0;i<r[m].length;i++){
+                    sdc = sdc.replace(m , r.get(m));
+                }
+            }
+            //finally return a promise containing the text and chapterIndicies
+            //console.log(sdc);
+            return({sdc, ci});
         });
-        return "";
-    }
-
-    private LoadTextFromFile() : string {
-        return "";
     }
 
     private randomizeTextSource(texts : Array<TextSource>) : TextSource {
-        let x = Math.floor((Math.random() * texts.length) + 1);
+        let x = Math.floor((Math.random() * texts.length));
         return texts[x];
     }
 }

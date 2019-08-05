@@ -1,5 +1,6 @@
 es6
 webpack
 
-1. Start it up with `npx webpack-dev-server` or `npx webpack` to do a straight build
-2. Open index.html
+* `npm install` 
+* Start it up with `npx webpack-dev-server` 
+* Deploy with `npx webpack`, open index.html and change the script location to the js folder.
