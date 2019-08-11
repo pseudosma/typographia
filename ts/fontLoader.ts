@@ -10,7 +10,7 @@ const numbers = ["0","1","2","3","4","5","6","7","8","9"];
 const lowers = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 const capitals = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 const all = specials.concat(numbers,lowers,capitals);
-const lettersAndNumbers = numbers.concat(lowers,capitals);
+const letters = lowers.concat(capitals);
 
 const sPos = -4;
 
@@ -26,9 +26,9 @@ export class FontLoader {
                 retVal.push(new Promise(function(resolve) {
                         SceneLoader.ImportMesh(f(all[i]), filepath, filename, thisScene, function (newMeshes) {
                             var char = newMeshes[0];
-                            //use Utf16 charCode to id character to avoid th need for conversions
-                            char.name = all[i].charCodeAt(0).toString();
-                            char.scaling = new Vector3(2.5,2.5,2.5);
+                            //use Utf16 charCode to id character to avoid th ngiteed for conversions
+                            //char.name = all[i].charCodeAt(0).toString();
+                            //char.scaling = new Vector3(2.5,2.5,2.5);
                             char.position.x = -6;
                             char.position.y = -1;
                             char.isVisible = false;
@@ -42,32 +42,32 @@ export class FontLoader {
     }
 
     public InstanceLetter(thisScene:Scene, name:string, index: number) : void {
-        const am = thisScene.getMeshByName(name);
-        //console.log("instancing " + name);
+        const n = this.charNameFix(name);
+        const am = thisScene.getMeshByName(n);
         if (am != null) {
-            //console.log("instanced!");
             const m = am as Mesh;
-            var i = m.createInstance(index + "~" + m.name);
+            //all instances will have the index as the name
+            var i = m.createInstance(index.toString());
             i.isVisible = true;
             i.position.y = -1;
-            i.position.x = index * 2;
+            i.position.x = index;
             thisScene.addMesh(i);
         }
     }
 
     public DeinstanceLetter(thisScene:Scene, index:number) : void {
-        const am = thisScene.getMeshByName(index + "~" + name);
-        if (am.isAnInstance) {
+        const am = thisScene.getMeshByName(index.toString());
+        if (am != null) {
             am.dispose();
         }
     }
 
     private charNameFix(char:string) : string {
         var retVal = "special";
-        if (lettersAndNumbers.includes(char)) {
+        if (letters.includes(char)) {
             retVal = char;
         }
-        //renaming of special chars
+        //renaming of special chars that mess up the blender export
         if (char == `,`) {
             retVal = "comma";
         }
@@ -106,6 +106,41 @@ export class FontLoader {
         }
         if (char == `)`) {
             retVal = "closeparen";
+        }
+        //space
+        if (char == ` `) {
+            retVal = "";
+        }
+        //replace the numbers too cause later on the index will be used to id instances
+        if (char == "0") {
+            retVal = "zero";
+        }
+        if (char == "1") {
+            retVal = "one";
+        }
+        if (char == "2") {
+            retVal = "two";
+        }
+        if (char == "3") {
+            retVal = "three";
+        }
+        if (char == "4") {
+            retVal = "four";
+        }
+        if (char == "5") {
+            retVal = "five";
+        }
+        if (char == "6") {
+            retVal = "six";
+        }
+        if (char == "7") {
+            retVal = "seven";
+        }
+        if (char == "8") {
+            retVal = "eight";
+        }
+        if (char == "9") {
+            retVal = "nine";
         }
         return retVal
     }

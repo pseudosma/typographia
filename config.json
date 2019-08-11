@@ -11,7 +11,7 @@
         "replacements": [
                 {"_":""}
             ],
-        "protagonist":{"type":"knight", "gender":"male"}
+        "protagonist":{"type":0}
         }
     ],
     "proxyPath": "https://bypasscors.herokuapp.com/api/?url="

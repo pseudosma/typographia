@@ -1,5 +1,9 @@
 import { TextSource, GameConfig } from "./gameConfig";
 
+export class TextHolder {
+    //allows strings to be passed by ref
+    public content: string
+}
 
 export class TextLoader {
     public readonly source: TextSource;
@@ -46,7 +50,6 @@ export class TextLoader {
                 }
             }
             //finally return a promise containing the text and chapterIndicies
-            //console.log(sdc);
             return({sdc, ci});
         });
     }

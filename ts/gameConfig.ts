@@ -3,17 +3,14 @@ import * as data from '../config.json';
 enum HeroType {
     knight = 0,
     detective = 1,
-    soldier = 2
-}
-
-enum HeroGender {
-    male = 0,
-    female = 1
+    soldier = 2,
+    pirate = 3,
+    ninja = 4,
+    cosmonaut = 5
 }
 
 class Protagonist {
     public type: HeroType;
-    public gender: HeroGender;
 }
 
 export class TextSource {
