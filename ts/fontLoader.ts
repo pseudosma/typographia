@@ -1,9 +1,10 @@
 import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
 import "@babylonjs/core/Loading/Plugins/babylonFileLoader";
 import { Scene } from "@babylonjs/core/scene";
-import { Vector3 } from "@babylonjs/core/Maths/math";
 import { CellMaterial } from "@babylonjs/materials/cell";
 import { Mesh } from "@babylonjs/core/Meshes"
+
+import { ShaderBuilder } from "./shaders";
 
 const specials = [`,`,`-`,`.`,`?`,`/`,`\\`,`"`,`'`,`:`,`;`,`!`,`(`,`)`,`+`];
 const numbers = ["0","1","2","3","4","5","6","7","8","9"];
@@ -19,6 +20,7 @@ export class FontLoader {
 
     //LoadFonts loads all the fonts from file to scene for instancing
     public LoadFonts(thisScene:Scene, filepath:string, filename:string) : Promise<any>[] {
+        const sb = new ShaderBuilder(thisScene);
         var retVal: Promise<any>[] = [];
         var f = this.charNameFix;
             const material = new CellMaterial("cell", thisScene);
@@ -32,7 +34,8 @@ export class FontLoader {
                             char.position.x = -6;
                             char.position.y = -1;
                             char.isVisible = false;
-                            char.material = material;
+                            char.material = thisScene.getMaterialByName("shader");
+                            //char.material = material;
                             resolve();
                         });
                     })
