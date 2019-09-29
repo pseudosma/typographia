@@ -19,6 +19,8 @@ const sPos = -4;
 export class FontLoader {
 
     //LoadFonts loads all the fonts from file to scene for instancing
+    //we do it one at a time here to rename certain ones for instancing 
+    //and prevent other relics from the scene from coming across.
     public LoadFonts(thisScene:Scene, filepath:string, filename:string) : Promise<any>[] {
         const sb = new ShaderBuilder(thisScene);
         var retVal: Promise<any>[] = [];

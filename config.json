@@ -15,5 +15,5 @@
         }
     ],
     "proxyPath": "https://bypasscors.herokuapp.com/api/?url=",
-    "loadingInnerHtml": "<p style=\"letter-spacing:4px;color:grey;height: 100vh;font-size: 50px;font-family: \"Georgia\", Georgia, serif;text-align: center;\">loading...</p>"
+    "loadingInnerHtml": "<div style=\"height: 100vh;text-align: center;\"><img src=\"graphics/v7.gif\"></div>"
 }

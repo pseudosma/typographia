@@ -4,7 +4,7 @@ module.exports = {
     },
     output: {
         filename: 'main.js',
-        path: __dirname + '/js'
+        path: __dirname + ''
     },
     resolve: {
         extensions: ['.ts', '.js']
