@@ -2,7 +2,7 @@ import { TextSource, GameConfig } from "./gameConfig";
 
 export class TextHolder {
     //allows strings to be passed by ref
-    public content: string
+    content: string
 }
 
 export class TextLoader {

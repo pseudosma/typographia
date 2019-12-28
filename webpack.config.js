@@ -11,7 +11,9 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.tsx?$/,
+            test: function (modulePath) {
+                return modulePath.endsWith('.ts') && !modulePath.endsWith('test.ts');
+              },
             loader: 'ts-loader'
         }]
     }

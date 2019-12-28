@@ -10,19 +10,19 @@ enum HeroType {
     cosmonaut = 5
 }
 
-class Protagonist {
-    public type: HeroType;
+interface Protagonist {
+    type: HeroType;
 }
 
-export class TextSource {
-    public path: string;
-    public title: string;
-    public author: string;
-    public beginPattern: string;
-    public endPattern: string;
-    public chapterPattern: string;
-    public replacements: Map<string,string>
-    public protagonist: Protagonist;
+export interface TextSource {
+    path: string;
+    title: string;
+    author: string;
+    beginPattern: string;
+    endPattern: string;
+    chapterPattern: string;
+    replacements: Map<string,string>
+    protagonist: Protagonist;
 }
 
 class CustomLoadingScreen implements ILoadingScreen {
@@ -39,26 +39,21 @@ class CustomLoadingScreen implements ILoadingScreen {
     }
   }
 
-export class GameConfig {
+export interface GameConfig {
     //Base Configs
-    public graphicsPath: string;
-    public fontFile: string;
-
+    graphicsPath: string;
+    fontFile: string;
     //Text Source
-    public textSources: Array<TextSource>;
-    public proxyPath: string;
-
+    textSources: Array<TextSource>;
+    proxyPath: string;
     //Loading Screen
-    private loadingInnerHtml: string;
-    public loadingScreen: CustomLoadingScreen;
-
-
-    constructor() {
-        this.graphicsPath = (<any>data).graphicsPath;
-        this.fontFile = (<any>data).fontFile;
-        this.textSources = (<any>data).textSources;
-        this.proxyPath = (<any>data).proxyPath;
-        this.loadingInnerHtml = (<any>data).loadingInnerHtml;
-        this.loadingScreen = new CustomLoadingScreen(this.loadingInnerHtml);
-    }
+    loadingScreen: CustomLoadingScreen;
 }
+
+export const LoadGameConfig = () => {
+    return({graphicsPath: (<any>data).graphicsPath,
+        fontFile: (<any>data).fontFile,
+        textSources: (<any>data).textSources,
+        proxyPath: (<any>data).proxyPath,
+        loadingScreen: new CustomLoadingScreen((<any>data).loadingInnerHtml)})
+};

@@ -15,5 +15,5 @@
         }
     ],
     "proxyPath": "https://bypasscors.herokuapp.com/api/?url=",
-    "loadingInnerHtml": "<div style=\"height: 100vh;text-align: center;\"><img src=\"graphics/v7.gif\"></div>"
+    "loadingInnerHtml": "<div style=\"height: 100vh;text-align: center;\"><img src=\"graphics/loading.gif\"></div>"
 }
