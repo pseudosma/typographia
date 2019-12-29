@@ -14,6 +14,6 @@
         "protagonist":{"type":0}
         }
     ],
-    "proxyPath": "https://bypasscors.herokuapp.com/api/?url=",
+    "proxyPath": "https://non-cors.herokuapp.com/",
     "loadingInnerHtml": "<div style=\"height: 100vh;text-align: center;\"><img src=\"graphics/loading.gif\"></div>"
 }

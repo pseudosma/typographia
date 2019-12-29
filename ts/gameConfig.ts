@@ -57,3 +57,7 @@ export const LoadGameConfig = () => {
         proxyPath: (<any>data).proxyPath,
         loadingScreen: new CustomLoadingScreen((<any>data).loadingInnerHtml)})
 };
+
+export interface Configurable {
+    config: GameConfig;
+}
