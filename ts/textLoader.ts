@@ -1,6 +1,6 @@
 import { GameConfig } from "./gameConfig";
 
-const initialRegEx = /\\[r?n]|[\r?\n]|[\t]|\s{2,}/gm
+const initialRegEx = /\\[r""n]|[\r?\n]|[\t]|\s{2,}/gm
 
 export interface Chapter {
     index: number;
