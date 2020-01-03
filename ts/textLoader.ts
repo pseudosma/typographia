@@ -21,8 +21,8 @@ export const parseText = (
         //first replace line breaks
         var dc = text.replace(new RegExp(`\r\n`,"gm")," ");
         //then find the beginning and end indexes and substring
-        const begin = dc.indexOf(beginPattern);
-        const end = dc.indexOf(endPattern);
+        const begin = dc.search(beginPattern);
+        const end = dc.search(endPattern);
         var sdc = dc.substring(begin, end);
         //grab and then remove the titles
         var rgx = new RegExp(chapterPattern, "gm");
