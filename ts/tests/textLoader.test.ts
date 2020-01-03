@@ -22,6 +22,42 @@ describe('When using parseText', () => {
     expect(chapters[0].name).to.equal('AB');
     expect(chapters[1].name).to.equal('ZY');
   });
+  it('should return the raw string if no patterns are specified', () => {
+    const text = 'alkjkshsj kjshjksdgs skhdjgjdsgkh'; 
+    const beginPattern = '';
+    const endPattern = '';
+    const chapterPattern = '';
+    const replacements = null;
+    var chapters = new Array<Chapter>();
+    expect(parseText(
+      text, 
+      beginPattern, 
+      endPattern, 
+      chapterPattern,
+      replacements,
+      chapters
+      )).to.equal('alkjkshsj kjshjksdgs skhdjgjdsgkh');
+    expect(chapters.length).to.equal(0);
+  });
+  it('should replace line breaks and tabs with spaces', () => {
+    const text = `alkjkshsj   
+       kjshjksdgs
+skhdjgjdsgkh`; 
+    const beginPattern = '';
+    const endPattern = '';
+    const chapterPattern = '';
+    const replacements = null;
+    var chapters = new Array<Chapter>();
+    expect(parseText(
+      text, 
+      beginPattern, 
+      endPattern, 
+      chapterPattern,
+      replacements,
+      chapters
+      )).to.equal('alkjkshsj kjshjksdgs skhdjgjdsgkh');
+    expect(chapters.length).to.equal(0);
+  });
 });
 
 describe('When using loadText', () => {

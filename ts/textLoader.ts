@@ -1,5 +1,7 @@
 import { GameConfig } from "./gameConfig";
 
+const initialRegEx = /\\[r?n]|[\r?\n]|[\t]|\s{2,}/gm
+
 export interface Chapter {
     index: number;
     name: string;
@@ -19,22 +21,27 @@ export const parseText = (
     chapters: Array<Chapter>
     ) : string  => {
         //first replace line breaks
-        var dc = text.replace(new RegExp(`\r\n`,"gm")," ");
+        var dc = text.replace(initialRegEx,' ');
+        //dc = text.replace(new RegExp(`\t|\s{2,}`,'gm'),' ');
         //then find the beginning and end indexes and substring
-        const begin = dc.search(beginPattern);
-        const end = dc.search(endPattern);
-        var sdc = dc.substring(begin, end);
-        //grab and then remove the titles
-        var rgx = new RegExp(chapterPattern, "gm");
-        var result;
-        while (result = rgx.exec(sdc)) {
-            chapters.push({index: result.index, name: result[0]});  
+        const begin = beginPattern === '' ? 0 : dc.search(beginPattern);
+        const end = endPattern === '' ? text.length : dc.search(endPattern);
+        var t = dc.substring(begin, end);
+        //grab and then remove the chapter titles
+        if (chapterPattern != ''){
+            var rgx = new RegExp(chapterPattern, "gm");
+            var result;
+            while (result = rgx.exec(t)) {
+                chapters.push({index: result.index, name: result[0]});  
+            };
+            t = t.replace(rgx,"");
         };
-        var t = sdc.replace(rgx,"");
         //then work on replacements
-        replacements.forEach((value,key) => {
-            t = t.replace(key, value);
-        });
+        if (replacements != null) {
+            replacements.forEach((value,key) => {
+                t = t.replace(key, value);
+            });
+        }
         //finally return the text
         return t;
 }
