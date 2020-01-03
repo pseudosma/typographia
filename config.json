@@ -1,17 +1,20 @@
 {
-    "graphicsPath": "./graphics/",
-    "fontFile": "text.babylon",
+    "graphicsPath": "graphics/",
+    "graphicsFiles": {
+        "font": "text.babylon",
+        "knight": "knight.babylon"
+    },
     "textSources": [
         {"path":"http://www.gutenberg.org/cache/epub/7477/pg7477.txt",
         "title": "The Book of Wonder",
         "author": "Lord Dunsany",
         "beginPattern": "THE BRIDE OF THE MAN-HORSE",
         "endPattern": "EPILOGUE",
-        "chapterPattern": "[A-Z][A-Z|A-Z A-Z|A-Z-|A-Z, A-Z|A-Z. A-Z|A-Z' A-Z]{3,} ",
+        "chapterPattern": "([A-Z][A-Z|A-Z A-Z|A-Z-|A-Z, A-Z|A-Z. A-Z|A-Z' A-Z]){3,} ",
         "replacements": [
                 {"_":""}
             ],
-        "protagonist":{"type":0}
+        "protagonist": "knight"
         }
     ],
     "proxyPath": "https://non-cors.herokuapp.com/",

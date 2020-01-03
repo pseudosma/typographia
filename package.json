@@ -4,15 +4,21 @@
   "description": "A new type of text based game",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register ts/tests/*.test.ts"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babylonjs/core": "^4.0.3",
     "@babylonjs/materials": "^4.0.3",
+    "@types/chai": "^4.2.7",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "jsdom": "^15.2.1",
+    "mocha": "^6.2.2",
     "npx": "^10.2.0",
     "ts-loader": "^6.0.4",
+    "ts-node": "^8.5.4",
     "typescript": "^3.5.2",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5",

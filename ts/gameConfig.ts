@@ -1,17 +1,9 @@
 import * as data from '../config.json';
 import { ILoadingScreen } from '@babylonjs/core/Loading/loadingScreen';
 
-enum HeroType {
-    knight = 0,
-    detective = 1,
-    soldier = 2,
-    pirate = 3,
-    ninja = 4,
-    cosmonaut = 5
-}
-
-interface Protagonist {
-    type: HeroType;
+interface GraphicsFiles {
+    font: string;
+    protagonist: string;
 }
 
 export interface TextSource {
@@ -21,20 +13,25 @@ export interface TextSource {
     beginPattern: string;
     endPattern: string;
     chapterPattern: string;
-    replacements: Map<string,string>
-    protagonist: Protagonist;
+    replacements: Map<string,string>;
+    protagonist: string;
 }
 
-class CustomLoadingScreen implements ILoadingScreen {
+export class CustomLoadingScreen implements ILoadingScreen {
+    public loadingUIText: string
     public loadingUIBackgroundColor: string
-    constructor(public loadingUIText: string) {}
+    private doc: Document
+    constructor(loadingUIText: string, doc: Document) {
+        this.loadingUIText = loadingUIText;
+        this.doc = doc;
+    }
     public displayLoadingUI() {
-        var loadingScreenDiv = document.getElementById("loadingScreen") as HTMLDivElement;
+        var loadingScreenDiv = this.doc.getElementById("loadingScreen") as HTMLDivElement;
         loadingScreenDiv.innerHTML = this.loadingUIText;
     }
   
     public hideLoadingUI() {
-        var loadingScreenDiv = document.getElementById("loadingScreen") as HTMLDivElement;
+        var loadingScreenDiv = this.doc.getElementById("loadingScreen") as HTMLDivElement;
         loadingScreenDiv.style.display = "none";
     }
   }
@@ -42,20 +39,42 @@ class CustomLoadingScreen implements ILoadingScreen {
 export interface GameConfig {
     //Base Configs
     graphicsPath: string;
-    fontFile: string;
-    //Text Source
-    textSources: Array<TextSource>;
+    graphicsFiles: GraphicsFiles;
+    textSource: TextSource;
     proxyPath: string;
     //Loading Screen
     loadingScreen: CustomLoadingScreen;
 }
 
-export const LoadGameConfig = () => {
+export const randomizeTextSource = (texts : Array<TextSource>) : TextSource  => {
+    let x = Math.floor((Math.random() * texts.length));
+    return texts[x];
+}
+
+export const getProtagonistPath = (
+    graphicsFiles: Object, 
+    protagonist: string) : string => {
+        for (let [key, value] of Object.entries(graphicsFiles)) {
+            if (key === protagonist ) {
+                return value;
+            }
+        }
+}
+
+export const LoadGameConfig = (): GameConfig => {
+    const ts = randomizeTextSource((<any>data).textSources);
+    const p =getProtagonistPath(
+        (<any>data).graphicsFiles, 
+        ts.protagonist);
+
     return({graphicsPath: (<any>data).graphicsPath,
-        fontFile: (<any>data).fontFile,
-        textSources: (<any>data).textSources,
+        graphicsFiles: {
+            font: (<any>data).graphicsFiles.font,
+            protagonist: p
+        },
+        textSource: ts,
         proxyPath: (<any>data).proxyPath,
-        loadingScreen: new CustomLoadingScreen((<any>data).loadingInnerHtml)})
+        loadingScreen: new CustomLoadingScreen((<any>data).loadingInnerHtml, document)})
 };
 
 export interface Configurable {

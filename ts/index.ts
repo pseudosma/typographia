@@ -1,4 +1,4 @@
-import { Game } from "./gameLogic";
+import { Game } from "./game";
 
 // Create our game class using the render canvas element
 let game = new Game();

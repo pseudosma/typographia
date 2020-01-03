@@ -1,21 +1,11 @@
-import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
-import "@babylonjs/core/Loading/Plugins/babylonFileLoader";
-import { Scene } from "@babylonjs/core/scene";
-import { CellMaterial } from "@babylonjs/materials/cell";
-import { Mesh } from "@babylonjs/core/Meshes"
-
-import { ShaderBuilder } from "./shaders";
-
 const specials = [`,`,`-`,`.`,`?`,`/`,`\\`,`"`,`'`,`:`,`;`,`!`,`(`,`)`,`+`];
 const numbers = ["0","1","2","3","4","5","6","7","8","9"];
 const lowers = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 const capitals = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-const all = specials.concat(numbers,lowers,capitals);
+const all = specials.concat(numbers,lowers,capitals); //list of all items to load
 const letters = lowers.concat(capitals);
 
-const sPos = -4;
-
-const charNameFix = (char:string) : string => {
+export const charNameFix = (char: string) : string => {
     var retVal = "special";
     if (letters.includes(char)) {
         retVal = char;
@@ -98,14 +88,13 @@ const charNameFix = (char:string) : string => {
     return retVal
 }
 
-const loadFonts = (scene:Scene, filepath:string, filename:string): Promise<any>[] => {
-    const sb = new ShaderBuilder(scene);
+export const loadFonts = (sceneLoader, scene, filepath:string, filename:string): Promise<any>[] => {
     var retVal: Promise<any>[] = [];
     var f = charNameFix;
-        const material = new CellMaterial("cell", scene);
+        //const material = new CellMaterial("cell", scene);
         for (let i=0; i<all.length; i++) {
             retVal.push(new Promise(function(resolve) {
-                    SceneLoader.ImportMesh(f(all[i]), filepath, filename, scene, function (newMeshes) {
+                    sceneLoader.ImportMesh(f(all[i]), filepath, filename, scene, function (newMeshes) {
                         var char = newMeshes[0];
                         //use Utf16 charCode to id character to avoid th ngiteed for conversions
                         //char.name = all[i].charCodeAt(0).toString();
@@ -123,13 +112,12 @@ const loadFonts = (scene:Scene, filepath:string, filename:string): Promise<any>[
     return retVal
 }
 
-const instanceLetter = (scene:Scene, name:string, index: number) : void => {
+export const instanceLetter = (scene, name:string, index: number) : void => {
     const n = charNameFix(name);
     const am = scene.getMeshByName(n);
     if (am != null) {
-        const m = am as Mesh;
         //all instances will have the index as the name
-        var i = m.createInstance(index.toString());
+        var i = am.createInstance(index.toString());
         i.isVisible = true;
         i.position.y = -1;
         i.position.x = index;
@@ -137,7 +125,7 @@ const instanceLetter = (scene:Scene, name:string, index: number) : void => {
     }
 }
 
-const deinstanceLetter = (scene:Scene, index:number) : void => {
+export const deinstanceLetter = (scene, index:number) : void => {
     const am = scene.getMeshByName(index.toString());
     if (am != null) {
         am.dispose();
@@ -145,9 +133,9 @@ const deinstanceLetter = (scene:Scene, index:number) : void => {
 }
 
 export interface FontLoader {
-    LoadFonts: (scene, filepath, filename) => Promise<any>[];
-    InstanceLetter: (scene, name, index) => void;
-    DeinstanceLetter: (scene, index) => void;
+    LoadFonts: (sceneLoader, scene, filepath: string, filename: string) => Promise<any>[];
+    InstanceLetter: (scene, name: string, index: number) => void;
+    DeinstanceLetter: (scene, index: number) => void;
 }
 
 export const NewFontLoader = () => {

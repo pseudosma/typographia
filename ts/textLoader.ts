@@ -1,21 +1,16 @@
-import { TextSource, GameConfig } from "./gameConfig";
+import { GameConfig } from "./gameConfig";
 
-interface Chapter {
+export interface Chapter {
     index: number;
     name: string;
 }
 
-class TextHolder {
-    //allows strings to be passed by ref
+export class TextHolder {
+    //allows strings to be passed by ref and chars to be evaluated by index
     content: string
 }
 
-const randomizeTextSource = (texts : Array<TextSource>) : TextSource  => {
-    let x = Math.floor((Math.random() * texts.length));
-    return texts[x];
-}
-
-const parseText = (
+export const parseText = (
     text :string, 
     beginPattern: string, 
     endPattern: string, 
@@ -30,56 +25,62 @@ const parseText = (
         const end = dc.indexOf(endPattern);
         var sdc = dc.substring(begin, end);
         //grab and then remove the titles
-        var chaps = sdc.match(chapterPattern);
-        for (var c in chaps) {
-            const i = sdc.indexOf(c);
-            chapters.push({index: i, name: c});  
-        }
-        var t = sdc.replace(new RegExp(chapterPattern,"gm"),"");
+        var rgx = new RegExp(chapterPattern, "gm");
+        var result;
+        while (result = rgx.exec(sdc)) {
+            chapters.push({index: result.index, name: result[0]});  
+        };
+        var t = sdc.replace(rgx,"");
         //then work on replacements
-        for (var m in replacements){
-            for (var i=0;i<replacements[m].length;i++){
-                    t = t.replace(m , replacements.get(m));
-                }
-        }
+        replacements.forEach((value,key) => {
+            t = t.replace(key, value);
+        });
         //finally return the text
         return t;
 }
 
-export class TextLoader {
-    public readonly source: TextSource;
-    private proxyPath: string;
-    public text: TextHolder;
-    public chapters: Array<Chapter>;
+export interface TextLoader {
+    text: TextHolder;
+    chapters: Array<Chapter>;
+    LoadText(
+        fetchFunc: any,
+        config: GameConfig, 
+        text: TextHolder, 
+        chapters: Array<Chapter>) : Promise<any>;
+}
 
-    constructor(config: GameConfig) {
-        this.source = randomizeTextSource(config.textSources);
-        this.proxyPath = config.proxyPath;
-        this.text = new TextHolder;
-        this.chapters = new Array<Chapter>();
-    }
-
-
-    public LoadText() : Promise<any> {
-        //need to redeclare/point to these since the resolution for the 
+export const loadText = (
+    fetchFunc: any,
+    config: GameConfig, 
+    text: TextHolder, 
+    chapters: Array<Chapter>) : Promise<any> => {
+    //need to redeclare/point to these since the resolution for the 
         //promise will not be aware of 'this'
-        const b = this.source.beginPattern;
-        const e = this.source.endPattern;
-        const r = this.source.replacements;
-        const cp = this.source.chapterPattern;
-        var ci = this.chapters;
-        var t = this.text;
+        //but vars within this func will be in scope
+        const b = config.textSource.beginPattern;
+        const e = config.textSource.endPattern;
+        const r = config.textSource.replacements;
+        const cp = config.textSource.chapterPattern;
+        var ci = chapters;
+        var t = text;
 
-        return fetch(this.proxyPath + this.source.path)
-        .then(function(response) {
+        return fetchFunc(config.proxyPath + config.textSource.path)
+        .then((response) => {
             const data = response.text()
             return Promise.resolve(data).then(
                 d => data
             );
         })
-        .then(function(d) {
+        .then((d) => {
             t.content = parseText(d, b, e, cp, r, ci);
             return;
         });
+}
+
+export const NewTextLoader = () : TextLoader => {
+    return{
+        text: new TextHolder,
+        chapters: new Array<Chapter>(),
+        LoadText: loadText
     }
 }
