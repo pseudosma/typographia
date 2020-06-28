@@ -9,6 +9,9 @@
     * Start it up with `npx webpack-dev-server`, then navigate to localhost:8080
 * Option 2:
     * Use VS Code's `Debug` configs.
+* Option 3:
+    * `npm run dev`
+    * `npm run dev`
 
 ## Deploy
 
