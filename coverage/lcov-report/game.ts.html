@@ -1,17 +1,325 @@
-import "@babylonjs/core/Loading/Plugins/babylonFileLoader";
-import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
-import { Engine } from "@babylonjs/core/Engines/engine";
-import { Scene } from "@babylonjs/core/scene";
-import { Vector3 } from "@babylonjs/core/Maths/math";
-import { UniversalCamera } from "@babylonjs/core/Cameras/universalCamera";
-import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
 
-import { ShaderBuilder } from "./shaders";
-import { updateTextPosition } from "./gameLogic";
-import { FontLoader } from "./fontLoader";
-import { Configurable, GameConfig } from "./gameConfig";
-import { TextLoader } from "./textLoader";
+<!doctype html>
+<html lang="en">
 
+<head>
+    <title>Code coverage report for game.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="index.html">All files</a> game.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/49</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/7</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/48</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import "@babylonjs/core/Loading/Plugins/babylonFileLoader";</span>
+<span class="cstat-no" title="statement not covered" >import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";</span>
+<span class="cstat-no" title="statement not covered" >import { Engine } from "@babylonjs/core/Engines/engine";</span>
+<span class="cstat-no" title="statement not covered" >import { Scene } from "@babylonjs/core/scene";</span>
+<span class="cstat-no" title="statement not covered" >import { Vector3 } from "@babylonjs/core/Maths/math";</span>
+<span class="cstat-no" title="statement not covered" >import { UniversalCamera } from "@babylonjs/core/Cameras/universalCamera";</span>
+<span class="cstat-no" title="statement not covered" >import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >import { ShaderBuilder } from "./shaders";</span>
+<span class="cstat-no" title="statement not covered" >import { updateTextPosition } from "./gameLogic";</span>
+<span class="cstat-no" title="statement not covered" >import { FontLoader } from "./fontLoader";</span>
+<span class="cstat-no" title="statement not covered" >import { Configurable, GameConfig } from "./gameConfig";</span>
+<span class="cstat-no" title="statement not covered" >import { TextLoader } from "./textLoader";</span>
+import { FlechetteResponse } from "flechette";
+&nbsp;
 interface BabylonGame {
     canvas: HTMLCanvasElement;
     engine: Engine;
@@ -19,75 +327,75 @@ interface BabylonGame {
     camera: UniversalCamera;
     light: HemisphericLight;
 }
-
+&nbsp;
 interface ScrollingGame {
     lastX: number;
 }
-
+&nbsp;
 interface TextBasedGame extends ScrollingGame{
     fontLoader: FontLoader;
     textLoader: TextLoader;
-    UpdateTextPosition: (scene, camera, lastX, text, fontLoader) => number;
+    UpdateTextPosition: (scene, camera, lastX, text, fontLoader) =&gt; number;
 }
-
-export class Game implements BabylonGame, TextBasedGame, Configurable {
-    canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
-    engine = new Engine(this.canvas);
-    scene = new Scene(this.engine);
-    camera = new UniversalCamera("camera1", new Vector3(0, 0, -10), this.scene);
-    light = new HemisphericLight("light1", new Vector3(0, 1, 0), this.scene);
-    config = new GameConfig();
-    fontLoader = new FontLoader();
-    textLoader = new TextLoader();
-    lastX = 0;
-    UpdateTextPosition = updateTextPosition;
-
-    constructor() {
-        this.engine.loadingScreen = this.config.loadingScreen;
-        this.engine.displayLoadingUI();
-        this.scene.clearColor.set(0, 0, 0, 1);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export class G</span>ame implements BabylonGame, TextBasedGame, Configurable {
+<span class="cstat-no" title="statement not covered" >    canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;</span>
+<span class="cstat-no" title="statement not covered" >    engine = new Engine(this.canvas);</span>
+<span class="cstat-no" title="statement not covered" >    scene = new Scene(this.engine);</span>
+<span class="cstat-no" title="statement not covered" >    camera = new UniversalCamera("camera1", new Vector3(0, 0, -10), this.scene);</span>
+<span class="cstat-no" title="statement not covered" >    light = new HemisphericLight("light1", new Vector3(0, 1, 0), this.scene);</span>
+<span class="cstat-no" title="statement not covered" >    config = new GameConfig();</span>
+<span class="cstat-no" title="statement not covered" >    fontLoader = new FontLoader();</span>
+<span class="cstat-no" title="statement not covered" >    textLoader = new TextLoader();</span>
+<span class="cstat-no" title="statement not covered" >    lastX = 0;</span>
+<span class="cstat-no" title="statement not covered" >    UpdateTextPosition = updateTextPosition;</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >    constructor() {</span>
+<span class="cstat-no" title="statement not covered" >        this.engine.loadingScreen = this.config.loadingScreen;</span>
+<span class="cstat-no" title="statement not covered" >        this.engine.displayLoadingUI();</span>
+<span class="cstat-no" title="statement not covered" >        this.scene.clearColor.set(0, 0, 0, 1);</span>
         //this.camera.gamepadAngularSensibility = 600000;
-        this.camera.angularSensibility = 600000;
+<span class="cstat-no" title="statement not covered" >        this.camera.angularSensibility = 600000;</span>
         //this.camera.touchMoveSensibility = 1;
         //this.camera.gamepadMoveSensibility = 1;
         //this.camera.setTarget(Vector3.Zero());
         //this.camera.mode = Camera.ORTHOGRAPHIC_CAMERA;
         //this.camera.fov = 0.1;
-        this.light.intensity = 0.7;
-        this.scene.activeCamera.inputs.removeByType("");
-        this.scene.activeCamera.attachControl(this.canvas, false);
+<span class="cstat-no" title="statement not covered" >        this.light.intensity = 0.7;</span>
+<span class="cstat-no" title="statement not covered" >        this.scene.activeCamera.inputs.removeByType("");</span>
+<span class="cstat-no" title="statement not covered" >        this.scene.activeCamera.attachControl(this.canvas, false);</span>
         //Listen for browser/canvas resize events
-        window.addEventListener("resize", () => {
-            this.engine.resize();
+<span class="cstat-no" title="statement not covered" >        window.addEventListener("resize", <span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.engine.resize();</span>
         });
         //add shader to the scene
-        new ShaderBuilder(this.scene);
+<span class="cstat-no" title="statement not covered" >        new ShaderBuilder(this.scene);</span>
     }
-
-    public CreateScene(): void {
+&nbsp;
+    public <span class="fstat-no" title="function not covered" >CreateScene(</span>): void {
         //TODO: Add author, title, and chapter info
-        const t = this.textLoader.loadText(this.config);
-        const fl = this.fontLoader;
-        const s = this.scene;
-        const tl = this.textLoader;
-        const p = this.fontLoader.loadFonts(
+        const t = <span class="cstat-no" title="statement not covered" >this.textLoader.loadText(this.config);</span>
+        const fl = <span class="cstat-no" title="statement not covered" >this.fontLoader;</span>
+        const s = <span class="cstat-no" title="statement not covered" >this.scene;</span>
+        const tl = <span class="cstat-no" title="statement not covered" >this.textLoader;</span>
+        const p = <span class="cstat-no" title="statement not covered" >this.fontLoader.loadFonts(</span>
             SceneLoader,
             this.scene,
             this.config.graphicsPath,
             this.config.graphicsFiles.font
         );
-        Promise.all([t, ...p]).then(() => {
+<span class="cstat-no" title="statement not covered" >        Promise.all([t, ...p]).then(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
             //Only after all meshes are loaded, then we can try to instance text.
-            for (let i=0; i<41; i++) {
-                fl.instanceLetter(s, tl.text.content[i], i);
+<span class="cstat-no" title="statement not covered" >            for (let i=<span class="cstat-no" title="statement not covered" >0;</span> i&lt;41; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                fl.instanceLetter(s, tl.text.content[i], i);</span>
             }
-            this.engine.hideLoadingUI();
-          }).catch((e: any) => {
-            this.engine.hideLoadingUI();
-            var loadingScreenDiv = document.getElementById("errorScreen") as HTMLDivElement;
-            loadingScreenDiv.style.display = "inherit";
+<span class="cstat-no" title="statement not covered" >            this.engine.hideLoadingUI();</span>
+          }).catch(<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.engine.hideLoadingUI();</span>
+            var loadingScreenDiv = <span class="cstat-no" title="statement not covered" >document.getElementById("errorScreen") as HTMLDivElement;</span>
+<span class="cstat-no" title="statement not covered" >            loadingScreenDiv.style.display = "inherit";</span>
           });
-
+&nbsp;
         ///////////------------------TESTING ONLY!
         // const fl = this.fontLoader;
         // const s = this.scene;
@@ -97,28 +405,48 @@ export class Game implements BabylonGame, TextBasedGame, Configurable {
         // const p = this.fontLoader.loadFonts(SceneLoader, this.scene, this.config.graphicsPath, this.config.graphicsFiles.font);
         // Promise.all(p).then(function () {
         //     t.content = `In the morning of his two hundred and fiftieth year Shepperalk the centaur went to the golden coffer, wherein the treasure of the centaurs was, and taking from it the hoarded amulet that his father, Jyshak, in the years of his prime, had hammered from mountain gold and set with opals bartered from the gnomes, he put it upon his wrist, and said no word, but walked from his mother's cavern. And he took with him too that clarion of the centaurs, that famous silver horn, that in its time had summoned to surrender seventeen cities of Man, and for twenty years had brayed at star-girt walls in the Siege of Tholdenblarna, the citadel of the gods, what time the centaurs waged their fabulous war and were not broken by any force of arms, but retreated slowly in a cloud of dust before the final miracle of the gods that They brought in Their desperate need from Their ultimate armoury. He took it and strode away, and his mother only sighed and let him go.  She knew that today he would not drink at the stream coming down from the terraces of Varpa Niger, the inner land of the mountains, that today he would not wonder awhile at the sunset and afterwards trot back to the cavern again to sleep on rushes pulled by rivers that know not Man. She knew that it was with him as it had been of old with his father, and with Goom the father of Jyshak, and long ago with the gods. Therefore she only sighed and let him go.  But he, coming out from the cavern that was his home, went for the first time over the little stream, and going round the corner of the crags saw glittering beneath him the mundane plain. And the wind of the autumn that was gilding the world, rushing up the slopes of the mountain, beat cold on his naked flanks. He raised his head and snorted.  "I am a man-horse now!" he shouted aloud; and leaping from crag to crag he galloped by valley and chasm, by torrent-bed and scar of avalanche, until he came to the wandering leagues of the plain, and left behind him for ever the Athraminaurian mountains.  His goal was Zretazoola, the city of Sombelenë. What legend of Sombelenë's inhuman beauty or of the wonder of her mystery had ever floated over the mundane plain to the fabulous cradle of the centaurs' race, the Athraminaurian mountains, I do not know. Yet in the blood of man there is a tide, an old sea-current rather, that is somehow akin to the twilight, which brings him rumours of beauty from however far away, as driftwood is found at sea from islands not yet discovered: and this spring-tide of current that visits the blood of man comes from the fabulous quarter of his lineage, from the legendary, the old; it takes him out to the woodlands, out to the hills; he listens to ancient song. So it may be that Shepperalk's fabulous blood stirred in those lonely mountains away at the edge of the world to rumours that only the airy twilight knew and only confided secretly to the bat, for Shepperalk was more legendary even than man. Certain it was that he headed from the first for the city of Zretazoola, where Sombelenë in her temple dwelt; though all the mundane plain, its rivers and mountains, lay between Shepperalk's home and the city he sought.  When first the feet of the centaur touched the grass of that soft alluvial earth he blew for joy upon the silver horn, he pranced and caracoled, he gambolled over the leagues; pace came to him like a maiden with a lamp, a new and beautiful wonder; the wind laughed as it passed him. He put his head down low to the scent of the flowers, he lifted it up to be nearer the unseen stars, he revelled through kingdoms, took rivers in his stride; how shall I tell you, ye that dwell in cities, how shall I tell you what he felt as he galloped? He felt for strength like the towers of Bel-Narana; for lightness like those gossamer palaces that the fairy-spider builds 'twixt heaven and sea along the coasts of Zith; for swiftness like some bird racing up from the morning to sing in some city's spires before daylight comes. He was the sworn companion of the wind. For joy he was as a song; the lightnings of his legendary sires, the earlier gods, began to mix with his blood; his hooves thundered. He came to the cities of men, and all men trembled, for they remembered the ancient mythical wars, and now they dreaded new battles and feared for the race of man. Not by Clio are these wars recorded; history does not know them, but what of that? Not all of us have sat at historians' feet, but all have learned fable and myth at their mothers' knees. And there were none that did not fear strange wars when they saw Shepperalk swerve and leap along the public ways. So he passed from city to city.  By night he lay down unpanting in the reeds of some marsh or a forest; before dawn he rose triumphant, and hugely drank of some river in the dark, and splashing out of it would trot to some high place to find the sunrise, and to send echoing eastwards the exultant greetings of his jubilant horn. And lo! the sunrise coming up from the echoes, and the plains new-lit by the day, and the leagues spinning by like water flung from a top, and that gay companion, the loudly laughing wind, and men and the fears of men and their little cities; and, after that, great rivers and waste spaces and huge new hills, and then new lands beyond them, and more cities of men, and always the old companion, the glorious wind. Kingdom by kingdom slipt by, and still his breath was even. "It is a golden thing to gallop on good turf in one's youth," said the young man-horse, the centaur. "Ha, ha," said the wind of the hills, and the winds of the plain answered.  Bells pealed in frantic towers, wise men consulted parchments, astrologers sought of the portent from the stars, the aged made subtle prophecies. "Is he not swift?" said the young. "How glad he is," said children.  Night after night brought him sleep, and day after day lit his gallop, till he came to the lands of the Athalonian men who live by the edges of the mundane plain, and from them he came to the lands of legend again such as those in which he was cradled on the other side of the world, and which fringe the marge of the world and mix with the twilight. And there a mighty thought came into his untired heart, for he knew that he neared Zretazoola now, the city of Sombelenë.  It was late in the day when he neared it, and clouds coloured with evening rolled low on the plain before him; he galloped on into their golden mist, and when it hid from his eyes the sight of things, the dreams in his heart awoke and romantically he pondered all those rumours that used to come to him from Sombelenë, because of the fellowship of fabulous things. She dwelt (said evening secretly to the bat) in a little temple by a lone lakeshore. A grove of cypresses screened her from the city, from Zretazoola of the climbing ways. And opposite her temple stood her tomb, her sad lake-sepulchre with open door, lest her amazing beauty and the centuries of her youth should ever give rise to the heresy among men that lovely Sombelenë was immortal: for only her beauty and her lineage were divine.  Her father had been half centaur and half god; her mother was the child of a desert lion and that sphinx that watches the pyramids;--she was more mystical than Woman.  Her beauty was as a dream, was as a song; the one dream of a lifetime dreamed on enchanted dews, the one song sung to some city by a deathless bird blown far from his native coasts by storm in Paradise. Dawn after dawn on mountains of romance or twilight after twilight could never equal her beauty; all the glow-worms had not the secret among them nor all the stars of night; poets had never sung it nor evening guessed its meaning; the morning envied it, it was hidden from lovers.  She was unwed, unwooed.  The lions came not to woo her because they feared her strength, and the gods dared not love her because they knew she must die.  This was what evening had whispered to the bat, this was the dream in the heart of Shepperalk as he cantered blind through the mist. And suddenly there at his hooves in the dark of the plain appeared the cleft in the legendary lands, and Zretazoola sheltering in the cleft, and sunning herself in the evening.  Swiftly and craftily he bounded down by the upper end of the cleft, and entering Zretazoola by the outer gate which looks out sheer on the stars, he galloped suddenly down the narrow streets. Many that rushed out on to balconies as he went clattering by, many that put their heads from glittering windows, are told of in olden song. Shepperalk did not tarry to give greetings or to answer challenges from martial towers, he was down through the earthward gateway like the thunderbolt of his sires, and, like Leviathan who has leapt at an eagle, he surged into the water between temple and tomb.  He galloped with half-shut eyes up the temple-steps, and, only seeing dimly through his lashes, seized Sombelenë by the hair, undazzled as yet by her beauty, and so haled her away; and, leaping with her over the floorless chasm where the waters of the lake fall unremembered away into a hole in the world, took her we know not where, to be her slave for all centuries that are allowed to his race.  Three blasts he gave as he went upon that silver horn that is the world-old treasure of the centaurs. These were his wedding bells.    When Thangobrind the jeweller heard the ominous cough, he turned at once upon that narrow way. A thief was he, of very high repute, being patronized by the lofty and elect, for he stole nothing smaller than the Moomoo's egg, and in all his life stole only four kinds of stone--the ruby, the diamond, the emerald, and the sapphire; and, as jewellers go, his honesty was great. Now there was a Merchant Prince who had come to Thangobrind and had offered his daughter's soul for the diamond that is larger than the human head and was to be found on the lap of the spider-idol, Hlo-hlo,`;
-        //     var ci = new Map<number, string>();
+        //     var ci = new Map&lt;number, string&gt;();
         //     ci[57] = 'Story 1';
         //     ci[1047] = 'Story 2';
         //     ci[2047] = 'Story 3';
-        //     //for (let i=0; i<rt.length; i++) {
-        //     for (let i = 0; i < 41; i++) {
+        //     //for (let i=0; i&lt;rt.length; i++) {
+        //     for (let i = 0; i &lt; 41; i++) {
         //         fl.instanceLetter(s, t.content[i], i);
         //     }
         //     e.hideLoadingUI();
         // });
     }
-
-    public Run(): void {
-        this.engine.runRenderLoop(() => {
-            this.lastX = this.UpdateTextPosition(
+&nbsp;
+    public <span class="fstat-no" title="function not covered" >Run(</span>): void {
+<span class="cstat-no" title="statement not covered" >        this.engine.runRenderLoop(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.lastX = this.UpdateTextPosition(</span>
                 this.scene, 
                 this.camera, 
                 this.lastX, 
                 this.textLoader.text, 
                 this.fontLoader
             );
-            this.scene.render();
+<span class="cstat-no" title="statement not covered" >            this.scene.render();</span>
         });
     }
-}
+}</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
+                at Sun May 23 2021 23:50:56 GMT-0500 (Central Daylight Time)
+            </div>
+        </div>
+        <script src="prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="sorter.js"></script>
+        <script src="block-navigation.js"></script>
+    </body>
+</html>
+    

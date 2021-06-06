@@ -4,8 +4,8 @@
   "description": "A new type of text based game",
   "main": "index.html",
   "scripts": {
-    "test": "mocha -r ts-node/register ts/tests/*.test.ts",
-    "dev": "webpack-dev-server",
+    "test": "jest --config jestconfig.json",
+    "dev": "concurrently --kill-others \"cors -p 9999\" \"webpack-dev-server\"",
     "build": "webpack -p"
   },
   "author": "",
@@ -13,20 +13,23 @@
   "devDependencies": {
     "@babylonjs/core": "^4.0.3",
     "@babylonjs/materials": "^4.0.3",
-    "@types/chai": "^4.2.7",
-    "@types/mocha": "^5.2.7",
-    "chai": "^4.2.0",
-    "jsdom": "^15.2.1",
-    "mocha": "^6.2.2",
-    "npx": "^10.2.0",
+    "@types/jest": "^24.9.0",
+    "concurrently": "^6.2.0",
+    "cors-anywhere-cli": "^1.2.0",
+    "coveralls": "^3.1.0",
+    "jest": "^26.6.3",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.3.0",
     "ts-loader": "^6.0.4",
     "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.5",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "flechette": "^0.1.2"
+    "flechette": "^0.1.4"
   }
 }

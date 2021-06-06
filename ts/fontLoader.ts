@@ -104,7 +104,7 @@ export const loadFonts = (sceneLoader, scene, filepath:string, filename:string):
                         char.isVisible = false;
                         char.material = scene.getMaterialByName("shader");
                         //char.material = material;
-                        resolve();
+                        resolve(null);
                     });
                 })
             );
@@ -132,16 +132,15 @@ export const deinstanceLetter = (scene, index:number) : void => {
     }
 }
 
-export interface FontLoader {
-    LoadFonts: (sceneLoader, scene, filepath: string, filename: string) => Promise<any>[];
-    InstanceLetter: (scene, name: string, index: number) => void;
-    DeinstanceLetter: (scene, index: number) => void;
+export interface IFontLoader {
+    loadFonts: (sceneLoader, scene, filepath: string, filename: string) => Promise<any>[];
+    instanceLetter: (scene, name: string, index: number) => void;
+    deinstanceLetter: (scene, index: number) => void;
 }
 
-export const NewFontLoader = () => {
-    return{
-        LoadFonts: loadFonts,
-        InstanceLetter: instanceLetter,
-        DeinstanceLetter: deinstanceLetter,
-    }
+export class FontLoader implements IFontLoader {
+    constructor() {};
+    loadFonts = loadFonts;
+    instanceLetter = instanceLetter;
+    deinstanceLetter = deinstanceLetter;
 }

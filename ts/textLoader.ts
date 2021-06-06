@@ -1,4 +1,5 @@
 import { GameConfig } from "./gameConfig";
+import { ResponseFunc, send, ToggleFunc, FlechetteResponse } from "flechette";
 
 const initialRegEx = /\\[r""n]|[\r?\n]|[\t]|\s{2,}/gm
 
@@ -46,48 +47,40 @@ export const parseText = (
         return t;
 }
 
-export interface TextLoader {
+export interface ITextLoader {
     text: TextHolder;
     chapters: Array<Chapter>;
-    LoadText(
-        fetchFunc: any,
-        config: GameConfig, 
-        text: TextHolder, 
-        chapters: Array<Chapter>) : Promise<any>;
+    loadText(config: GameConfig): Promise<any>;
 }
 
-export const loadText = (
-    fetchFunc: any,
-    config: GameConfig, 
-    text: TextHolder, 
-    chapters: Array<Chapter>) : Promise<any> => {
-    //need to redeclare/point to these since the resolution for the 
-        //promise will not be aware of 'this'
-        //but vars within this func will be in scope
-        const b = config.textSource.beginPattern;
-        const e = config.textSource.endPattern;
-        const r = config.textSource.replacements;
-        const cp = config.textSource.chapterPattern;
-        var ci = chapters;
-        var t = text;
-
-        return fetchFunc(config.proxyPath + config.textSource.path)
-        .then((response) => {
-            const data = response.text()
-            return Promise.resolve(data).then(
-                d => data
-            );
-        })
-        .then((d) => {
-            t.content = parseText(d, b, e, cp, r, ci);
-            return;
-        });
+export const loadText = (loader: TextLoader,config: GameConfig) : Promise<any> => {
+    return new Promise((resolve, reject) => {
+        send(
+            config.textSource.sendArgs,
+            (resp: FlechetteResponse) => {
+                loader.text.content = parseText(
+                    resp.response, 
+                    config.textSource.beginPattern, 
+                    config.textSource.endPattern, 
+                    config.textSource.chapterPattern, 
+                    config.textSource.replacements, 
+                    loader.chapters
+                );
+                loader.text
+                resolve(null);
+            },
+            (resp: FlechetteResponse) => {
+                console.error(resp.response);
+                reject(resp.response);
+            },
+            (b: Boolean) => {}
+        )
+    });
 }
 
-export const NewTextLoader = () : TextLoader => {
-    return{
-        text: new TextHolder,
-        chapters: new Array<Chapter>(),
-        LoadText: loadText
-    }
+export class TextLoader implements ITextLoader {
+    constructor() {};
+    text = new TextHolder;
+    chapters = new Array<Chapter>();
+    loadText = (config: GameConfig) => { return loadText(this, config) };
 }

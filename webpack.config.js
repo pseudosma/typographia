@@ -3,7 +3,7 @@ module.exports = {
         main: './ts'
     },
     output: {
-        filename: 'main.js',
+        filename: 'index.js',
         path: __dirname + ''
     },
     resolve: {

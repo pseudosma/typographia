@@ -11,7 +11,7 @@ export const updateXPosition = (camera) => {
 export const updateTextPosition = (scene, camera, xPosition: number, text: TextHolder, fontLoader) => {
     var x = updateXPosition(camera);
     //rounding causes a slight problem when calculating the instances to remove
-    //but we compensate by deinstancing a range.
+    //but we compensate by de-instancing a range.
     var max = x + 40;
     var min = x - 40;
     //Add new letters
@@ -19,7 +19,7 @@ export const updateTextPosition = (scene, camera, xPosition: number, text: TextH
         //going right
         var i = scene.getMeshByID((max).toString());
         if (i == null) {
-            fontLoader.InstanceLetter(scene, text.content[max], max);
+            fontLoader.instanceLetter(scene, text.content[max], max);
         }
     }
     if (xPosition > x && min <= text.content.length) {
@@ -27,17 +27,17 @@ export const updateTextPosition = (scene, camera, xPosition: number, text: TextH
         if (min > -1) {
             var i = scene.getMeshByID((min).toString());
             if (i == null) {
-                fontLoader.InstanceLetter(scene, text.content[min], min);
+                fontLoader.instanceLetter(scene, text.content[min], min);
             }
         }
     }
     //Remove ones out of range
     //removing a small range to compensate for sudden direction shifts
     for (let i = max + 1;max + 3 > i; i++) {
-        fontLoader.DeinstanceLetter(scene, i)
+        fontLoader.deinstanceLetter(scene, i)
     }
     for (let i = min - 1;min - 3 < i; i--) {
-        fontLoader.DeinstanceLetter(scene, i)
+        fontLoader.deinstanceLetter(scene, i)
     }
     return x;
 }

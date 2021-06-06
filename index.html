@@ -11,6 +11,9 @@
             padding: 0;
             margin: 0;
             overflow: hidden;
+            background: black;
+            color: white;
+            text-align: center;
         }
         #renderCanvas {
             width: 100%;
@@ -21,18 +24,27 @@
         #loadingScreen {
             width: 100%;
             height: 100%;
-            text-align: center;
-            background: black;
             z-index: 9999;
+        }
+        #errorScreen {
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 5000;
         }
     </style>
 </head>
 
 <body>
     <div id="loadingScreen"></div>
+    <div id="errorScreen">
+        A serious error occurred
+    </div>
     <canvas id="renderCanvas" touch-action="none"></canvas>
-    <!-- <script src="js/main.js"></script> -->
-    <script src="main.js"></script>
+    <script src="index.js"></script>
+    <noscript>
+        <h1>You must enable Javascript to use this site</h1>
+    </noscript>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 import * as data from '../config.json';
 import { ILoadingScreen } from '@babylonjs/core/Loading/loadingScreen';
+import { SendArgs } from "flechette"
 
 interface GraphicsFiles {
     font: string;
@@ -7,7 +8,7 @@ interface GraphicsFiles {
 }
 
 export interface TextSource {
-    path: string;
+    sendArgs: SendArgs;
     title: string;
     author: string;
     beginPattern: string;
@@ -36,12 +37,11 @@ export class CustomLoadingScreen implements ILoadingScreen {
     }
   }
 
-export interface GameConfig {
+export interface IGameConfig {
     //Base Configs
     graphicsPath: string;
     graphicsFiles: GraphicsFiles;
     textSource: TextSource;
-    proxyPath: string;
     //Loading Screen
     loadingScreen: CustomLoadingScreen;
 }
@@ -61,20 +61,32 @@ export const getProtagonistPath = (
         }
 }
 
-export const LoadGameConfig = (): GameConfig => {
-    const ts = randomizeTextSource((<any>data).textSources);
-    const p =getProtagonistPath(
-        (<any>data).graphicsFiles, 
-        ts.protagonist);
+export class GameConfig implements IGameConfig {
+    graphicsPath = (<any>data).graphicsPath;
+    graphicsFiles = {font: "", protagonist: ""};
+    textSource = {sendArgs: {path: ""},
+        title: "",
+        author: "",
+        beginPattern: "",
+        endPattern: "",
+        chapterPattern: "",
+        replacements: new Map(),
+        protagonist: ""
+    };
+    loadingScreen = new CustomLoadingScreen((<any>data).loadingInnerHtml, document);
 
-    return({graphicsPath: (<any>data).graphicsPath,
-        graphicsFiles: {
+    constructor() {
+        const ts = randomizeTextSource((<any>data).textSources);
+        const p = getProtagonistPath(
+            (<any>data).graphicsFiles, 
+            ts.protagonist);
+
+        this.graphicsFiles = {
             font: (<any>data).graphicsFiles.font,
             protagonist: p
-        },
-        textSource: ts,
-        proxyPath: (<any>data).proxyPath,
-        loadingScreen: new CustomLoadingScreen((<any>data).loadingInnerHtml, document)})
+        };
+        this.textSource = ts;
+    };
 };
 
 export interface Configurable {

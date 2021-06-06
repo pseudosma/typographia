@@ -1,64 +1,62 @@
-import 'mocha';
-import { expect } from 'chai';
 import { charNameFix, instanceLetter, deinstanceLetter, loadFonts } from '../fontLoader'
 
 describe('When using charNameFix', () => {
   it('should label characters ourside of list as "special"', () => {
-    expect(charNameFix('‡')).to.equal('special');
+    expect(charNameFix('‡')).toStrictEqual('special');
   });
   it('should return lower case', () => {
-    expect(charNameFix('x')).to.equal('x');
+    expect(charNameFix('x')).toStrictEqual('x');
   });
   it('should return upper case', () => {
-    expect(charNameFix('B')).to.equal('B');
+    expect(charNameFix('B')).toStrictEqual('B');
   });
   it('should replace numbers with the word', () => {
-    expect(charNameFix('1')).to.equal('one');
+    expect(charNameFix('1')).toStrictEqual('one');
   });
   it('should replace zero with the word', () => {
-    expect(charNameFix('0')).to.equal('zero');
+    expect(charNameFix('0')).toStrictEqual('zero');
   });
   it('should replace with comma', () => {
-    expect(charNameFix(',')).to.equal('comma');
+    expect(charNameFix(',')).toStrictEqual('comma');
   });
   it('should replace dash', () => {
-    expect(charNameFix('-')).to.equal('dash');
+    expect(charNameFix('-')).toStrictEqual('dash');
   });
   it('should replace period', () => {
-    expect(charNameFix('.')).to.equal('period');
+    expect(charNameFix('.')).toStrictEqual('period');
   });
   it('should replace question mark', () => {
-    expect(charNameFix('?')).to.equal('questionmark');
+    expect(charNameFix('?')).toStrictEqual('questionmark');
   });
   it('should replace forward slash', () => {
-    expect(charNameFix('/')).to.equal('forwardslash');
+    expect(charNameFix('/')).toStrictEqual('forwardslash');
   });
   it('should replace single quote', () => {
-    expect(charNameFix("'")).to.equal('singlequote');
+    expect(charNameFix("'")).toStrictEqual('singlequote');
   });
   it('should replace double quote', () => {
-    expect(charNameFix('"')).to.equal('doublequote');
+    expect(charNameFix('"')).toStrictEqual('doublequote');
   });
   it('should replace colon', () => {
-    expect(charNameFix(':')).to.equal('colon');
+    expect(charNameFix(':')).toStrictEqual('colon');
   });
   it('should replace semi colon', () => {
-    expect(charNameFix(';')).to.equal('semicolon');
+    expect(charNameFix(';')).toStrictEqual('semicolon');
   });
   it('should replace back slash', () => {
-    expect(charNameFix('\\')).to.equal('backslash');
+    expect(charNameFix('\\')).toStrictEqual('backslash');
   });
   it('should replace exclamation point', () => {
-    expect(charNameFix('!')).to.equal('exclamationpoint');
+    expect(charNameFix('!')).toStrictEqual('exclamationpoint');
   });
   it('should replace open parentheses', () => {
-    expect(charNameFix('(')).to.equal('openparen');
+    expect(charNameFix('(')).toStrictEqual('openparen');
   });
   it('should replace close parentheses', () => {
-    expect(charNameFix(')')).to.equal('closeparen');
+    expect(charNameFix(')')).toStrictEqual('closeparen');
   });
   it('should return empty string for a space', () => {
-    expect(charNameFix(' ')).to.equal('');
+    expect(charNameFix(' ')).toStrictEqual('');
   });
 });
 
@@ -66,7 +64,7 @@ describe('When using instanceLetter', () => {
   it('should skip instancing if scene has null base mesh', () => {
     const scene = {
       getMeshByName: () => {return null},
-      addMesh: () => {expect(true).to.equal(false)},
+      addMesh: () => {expect(true).toStrictEqual(false)},
     };
     instanceLetter(scene, 'bleh', 0);
   });
@@ -81,9 +79,9 @@ describe('When using instanceLetter', () => {
       addMesh: () => {return null},
     };
     instanceLetter(scene, 'bleh', 0);
-    expect(i.isVisible).to.equal(true);
-    expect(i.position.y).to.equal(-1);
-    expect(i.position.x).to.equal(0);
+    expect(i.isVisible).toStrictEqual(true);
+    expect(i.position.y).toStrictEqual(-1);
+    expect(i.position.x).toStrictEqual(0);
   });
 });
 
@@ -91,7 +89,7 @@ describe('When using deinstanceLetter', () => {
   it('should skip instancing if scene has null base mesh', () => {
     const scene = {
       getMeshByName: () => {return null},
-      addMesh: () => {expect(true).to.equal(false)},
+      addMesh: () => {expect(true).toStrictEqual(false)},
     };
     deinstanceLetter(scene, 0);
   });
@@ -100,10 +98,10 @@ describe('When using deinstanceLetter', () => {
     var am = {dispose: () => { i = 1 }}
     const scene = {
       getMeshByName: () => {return am},
-      addMesh: () => {expect(true).to.equal(false)},
+      addMesh: () => {expect(true).toStrictEqual(false)},
     };
     deinstanceLetter(scene, 0);
-    expect(i).to.equal(1);
+    expect(i).toStrictEqual(1);
   });
 });
 
@@ -113,6 +111,6 @@ describe('When using loadFonts', () => {
     const scene = {};
     var p = loadFonts(sceneLoader, scene, 'foo', 'bar');
     //should have promises equal to the lenght of "all"
-    expect(p.length).to.equal(76);
+    expect(p.length).toStrictEqual(76);
   });
 });

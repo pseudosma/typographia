@@ -1,6 +1,5 @@
-import 'mocha';
-import { expect } from 'chai';
-import { TextHolder, Chapter, parseText, loadText } from '../textLoader'
+import * as f from "flechette";
+import { Chapter, parseText, loadText, TextLoader } from '../textLoader'
 
 describe('When using parseText', () => {
   it('should parse strings, find chapters, and remove replacements', () => {
@@ -17,10 +16,10 @@ describe('When using parseText', () => {
       chapterPattern,
       replacements,
       chapters
-      )).to.equal('CDZCD');
-    expect(chapters.length).to.equal(2);
-    expect(chapters[0].name).to.equal('AB');
-    expect(chapters[1].name).to.equal('ZY');
+      )).toStrictEqual('CDZCD');
+    expect(chapters.length).toStrictEqual(2);
+    expect(chapters[0].name).toStrictEqual('AB');
+    expect(chapters[1].name).toStrictEqual('ZY');
   });
   it('should return the raw string if no patterns are specified', () => {
     const text = 'alkjkshsj kjshjksdgs skhdjgjdsgkh'; 
@@ -36,8 +35,8 @@ describe('When using parseText', () => {
       chapterPattern,
       replacements,
       chapters
-      )).to.equal('alkjkshsj kjshjksdgs skhdjgjdsgkh');
-    expect(chapters.length).to.equal(0);
+      )).toStrictEqual('alkjkshsj kjshjksdgs skhdjgjdsgkh');
+    expect(chapters.length).toStrictEqual(0);
   });
   it('should replace line breaks and tabs with spaces', () => {
     const text = `alkjkshsj   
@@ -55,24 +54,29 @@ skhdjgjdsgkh`;
       chapterPattern,
       replacements,
       chapters
-      )).to.equal('alkjkshsj kjshjksdgs skhdjgjdsgkh');
-    expect(chapters.length).to.equal(0);
+      )).toStrictEqual('alkjkshsj kjshjksdgs skhdjgjdsgkh');
+    expect(chapters.length).toStrictEqual(0);
   });
 });
 
-describe('When using loadText', () => {
+describe('When using loadText', () => {    
   it('should parse a fetch response and pass that into parseText', (done) => {
-    const testFetch = () => {
-      return new Promise((resolve) => {
-        resolve({text: () => {return 'ajkshdaskhj'}});
-      });
-    };
+    const t = new TextLoader();
+
+    const m = jest.spyOn(f, "send");
+    m.mockImplementation((sendArgs: f.SendArgs, successFunc: f.ResponseFunc) => {
+        successFunc({ 
+        success: true,
+        statusCode: 200,
+        response: "ajkshdaskhj", 
+        sent: { path: "" }});
+    });
 
     var config = {
       graphicsPath: 'a',
       graphicsFiles: {font: 'a', protagonist: 'a'},
       textSource: {
-        path: 'a',
+        sendArgs: { path: 'a' },
         title: 'a',
         author: 'a',
         beginPattern: 'a',
@@ -84,11 +88,10 @@ describe('When using loadText', () => {
       proxyPath: 'a',
       loadingScreen: null
     }; 
-    var t = new TextHolder();
-    var c = new Array<Chapter>();
-    var p = loadText(testFetch, config, t, c);
+    var p = loadText(t, config);
     Promise.resolve(p).then(() => {
-      expect(t.content).to.equal('ajksh ask');
+      expect(t.text.content).toStrictEqual('ajksh ask');
+      m.mockRestore();
       done();
     });
   });
